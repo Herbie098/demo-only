@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCU Smart Library Management System</title>
+<style>
+:root{--violet:#6d28d9;--violet2:#8b5cf6;--lavender:#ede9fe;--ink:#251747;--muted:#6b6380;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:#f7f4ff}
+.hero{min-height:330px;color:#fff;background:linear-gradient(115deg,rgba(38,14,79,.88),rgba(109,40,217,.72)),url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2000&q=85') center/cover;position:relative}
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px clamp(18px,5vw,70px);gap:18px;background:rgba(28,12,59,.3);backdrop-filter:blur(8px)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}.brand img{height:48px;width:48px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}.brand small{display:block;font-weight:500;opacity:.8;font-size:12px}
+.navlinks{display:flex;gap:8px;flex-wrap:wrap}.navlinks a{color:white;text-decoration:none;padding:10px 12px;border-radius:12px;font-size:14px}.navlinks a:hover{background:#ffffff26}
+.hero-content{padding:46px 20px 58px;text-align:center;max-width:900px;margin:auto}.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#ddd0ff;font-weight:800}.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.1;margin:12px 0}.hero p{max-width:650px;margin:0 auto 24px;color:#eee8ff;line-height:1.65}
+.btn{border:0;border-radius:12px;padding:12px 17px;background:var(--violet);color:white;font-weight:750;cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}.btn.light{background:white;color:var(--violet)}.btn.outline{background:transparent;border:1px solid #d8c8ff;color:var(--violet)}
+main{max-width:1180px;margin:-28px auto 0;padding:0 20px 50px;position:relative}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat,.panel,.feature{background:#fff;border:1px solid #eee8ff;border-radius:18px;box-shadow:0 12px 34px #3b16700c}.stat{padding:20px}.stat span{font-size:13px;color:var(--muted)}.stat strong{display:block;font-size:29px;margin-top:7px;color:var(--violet)}
+.section{padding-top:34px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:16px}.section h2{font-size:25px;margin:0 0 6px}.section-head p{margin:0;color:var(--muted);font-size:14px}.panel{padding:22px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.field{width:100%;padding:12px 13px;border:1px solid #ddd4f8;border-radius:11px;background:#fff;color:var(--ink);font:inherit;outline:none}.field:focus{border-color:var(--violet2);box-shadow:0 0 0 3px #8b5cf626}.search{flex:1;min-width:200px}.select{min-width:150px}
+.book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.book{border:1px solid #eee8ff;border-radius:15px;overflow:hidden;background:#fff;display:flex;flex-direction:column}.cover{height:140px;display:flex;align-items:center;justify-content:center;color:white;font-size:45px;background:linear-gradient(135deg,#5b21b6,#c4b5fd)}.cover.c2{background:linear-gradient(135deg,#312e81,#a78bfa)}.cover.c3{background:linear-gradient(135deg,#701a75,#e879f9)}.cover.c4{background:linear-gradient(135deg,#4338ca,#67e8f9)}.book-body{padding:14px;display:flex;flex-direction:column;gap:7px;flex:1}.book h3{font-size:16px;margin:0}.book .author{font-size:12px;color:var(--muted)}.tag{font-size:11px;background:var(--lavender);color:#5b21b6;border-radius:20px;padding:5px 8px;align-self:flex-start}.book-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;font-size:12px}.available{color:#15803d;font-weight:700}.unavailable{color:#b91c1c;font-weight:700}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.feature{padding:21px}.feature .icon{width:44px;height:44px;border-radius:13px;background:var(--lavender);display:grid;place-items:center;font-size:22px;margin-bottom:12px}.feature h3{margin:0 0 8px}.feature p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+.workflow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.step{background:#f5f0ff;border:1px solid #ded1ff;border-radius:14px;padding:17px 12px;text-align:center;position:relative}.step b{display:block;color:var(--violet);margin-bottom:7px}.step span{font-size:13px;color:#5d5278}.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.role-card{border:1px solid #e8defd;border-radius:15px;padding:18px}.role-card h3{margin:0 0 7px}.role-card p{color:var(--muted);font-size:13px;line-height:1.5;min-height:38px}
+footer{background:#21103f;color:#e9ddff;padding:25px 20px;text-align:center;font-size:13px}footer img{height:30px;vertical-align:middle;margin-right:8px;background:white;border-radius:50%}
+.modal-backdrop{position:fixed;inset:0;background:#17072dbb;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal-backdrop.show{display:flex}.modal{width:min(460px,100%);background:white;border-radius:20px;padding:24px;box-shadow:0 20px 70px #0004}.modal h2{margin:0 0 6px}.modal p{color:var(--muted);font-size:14px}.modal form{display:grid;gap:12px}.modal .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.close{float:right;border:0;background:#f1eaff;border-radius:9px;padding:7px 10px;cursor:pointer}.notice{display:none;margin-top:15px;padding:12px;border-radius:12px;background:#dcfce7;color:#166534;font-size:14px}.notice.show{display:block}.empty{padding:30px;text-align:center;color:var(--muted);grid-column:1/-1}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.book-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.workflow{grid-template-columns:repeat(2,1fr)}.features,.role-grid{grid-template-columns:1fr 1fr}.navlinks{display:none}}
+@media(max-width:520px){.stats{gap:9px}.stat{padding:14px}.stat strong{font-size:24px}.book-grid,.features,.role-grid{grid-template-columns:1fr}.cover{height:115px}.section-head{align-items:start;flex-direction:column}.hero-content{padding-top:38px}.workflow{grid-template-columns:1fr}.brand{font-size:13px}}
+</style>
+</head>
+<body>
+<header class="hero" id="home">
+  <nav>
+    <div class="brand">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/TCU_logo_2024.png" alt="TCU logo" onerror="this.style.display='none'">
+      <div>TCU Smart Library<small>Taguig City University • Library Services</small></div>
+    </div>
+    <div class="navlinks"><a href="#catalog">Book Catalog</a><a href="#services">Services</a><a href="#workflow">How it works</a><a href="#portal">Portal</a></div>
+    <button class="btn light" onclick="openModal('loginModal')">Log in</button>
+  </nav>
+  <div class="hero-content">
+    <div class="eyebrow">Read • Discover • Grow</div>
+    <h1>Smart Library Management System</h1>
+    <p>A modern library portal for browsing books, requesting a borrow, tracking returns, and discovering your next favorite read.</p>
+    <button class="btn light" onclick="document.querySelector('#catalog').scrollIntoView({behavior:'smooth'})">Explore the catalog ↓</button>
+    <button class="btn" onclick="openModal('registerModal')">Create an account</button>
+  </div>
+</header>
+<main>
+  <section class="stats" aria-label="Library overview">
+    <div class="stat"><span>Books in catalog</span><strong id="bookCount">8</strong></div>
+    <div class="stat"><span>Available to borrow</span><strong id="availableCount">7</strong></div>
+    <div class="stat"><span>My requests</span><strong id="requestCount">0</strong></div>
+    <div class="stat"><span>Book categories</span><strong>5</strong></div>
+  </section>
+
+  <section class="section" id="catalog">
+    <div class="section-head"><div><h2>Explore the book catalog</h2><p>Search by title, author, or category.</p></div><button class="btn outline" onclick="resetCatalog()">Reset search</button></div>
+    <div class="panel">
+      <div class="toolbar">
+        <input id="searchInput" class="field search" placeholder="🔎  Search books or authors..." oninput="renderBooks()">
+        <select id="categoryFilter" class="field select" onchange="renderBooks()"><option value="All">All categories</option><option>Programming</option><option>Information Systems</option><option>Fiction</option><option>Science</option><option>Personal Development</option></select>
+      </div>
+      <div id="bookGrid" class="book-grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="section-head"><div><h2>Library services</h2><p>Simple tools for borrowers, librarians, and administrators.</p></div></div>
+    <div class="features">
+      <div class="feature"><div class="icon">📚</div><h3>Borrow & Return</h3><p>Send a borrowing request, view the request status, and submit a return request when you're done reading.</p></div>
+      <div class="feature"><div class="icon">✨</div><h3>Book Recommendations</h3><p>Discover suggested books based on your selected interests and the categories you enjoy.</p></div>
+      <div class="feature"><div class="icon">🧾</div><h3>Records & Fines</h3><p>Keep a simple record of requests, due dates, return status, and any applicable fine.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="workflow">
+    <div class="section-head"><div><h2>System workflow</h2><p>Based on your UML and Level 1 Data Flow Diagram.</p></div></div>
+    <div class="workflow">
+      <div class="step"><b>01 · Member</b><span>Register, log in, update profile</span></div>
+      <div class="step"><b>02 · Catalog</b><span>Search and view book details</span></div>
+      <div class="step"><b>03 · Borrow</b><span>Request checkout and track status</span></div>
+      <div class="step"><b>04 · Return</b><span>Submit return and review due date</span></div>
+      <div class="step"><b>05 · Recommend</b><span>Get book suggestions by interest</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="portal">
+    <div class="section-head"><div><h2>Choose your portal</h2><p>Open the sample dashboard for your role.</p></div></div>
+    <div class="role-grid">
+      <div class="role-card"><h3>👤 Borrower</h3><p>Browse books, request borrowing, return books, and see recommendations.</p><button class="btn" onclick="openModal('loginModal','Borrower')">Borrower login</button></div>
+      <div class="role-card"><h3>📖 Librarian / Staff</h3><p>Review borrowing requests, update book availability, and manage the catalog.</p><button class="btn" onclick="openModal('loginModal','Librarian')">Staff portal</button></div>
+      <div class="role-card"><h3>⚙️ Administrator</h3><p>View system activity, manage settings, and check the request records.</p><button class="btn" onclick="openModal('loginModal','Administrator')">Admin portal</button></div>
+    </div>
+    <div id="dashboard" class="panel" style="display:none;margin-top:16px">
+      <div class="section-head"><div><h2 id="dashTitle">Dashboard</h2><p id="dashDesc"></p></div><button class="btn outline" onclick="closeDashboard()">Close</button></div>
+      <div id="dashContent"></div>
+    </div>
+  </section>
+</main>
+<footer><img src="https://commons.wikimedia.org/wiki/Special:FilePath/TCU_logo_2024.png" alt="" onerror="this.style.display='none'"> TCU Smart Library Management System • Student prototype • Taguig City University</footer>
+
+<div class="modal-backdrop" id="loginModal" onclick="backdropClose(event,'loginModal')"><div class="modal">
+  <button class="close" onclick="closeModal('loginModal')">✕</button><h2>Welcome back</h2><p>Demo login for the library prototype.</p>
+  <form onsubmit="login(event)"><select class="field" id="loginRole"><option>Borrower</option><option>Librarian</option><option>Administrator</option></select><input class="field" id="loginName" placeholder="Your name" required><input class="field" type="password" placeholder="Password (demo only)" required><button class="btn">Open dashboard</button></form>
+  <div class="notice" id="loginNotice">Demo login successful.</div>
+</div></div>
+<div class="modal-backdrop" id="registerModal" onclick="backdropClose(event,'registerModal')"><div class="modal">
+  <button class="close" onclick="closeModal('registerModal')">✕</button><h2>Create your member profile</h2><p>This prototype stores demo data only in your current browser.</p>
+  <form onsubmit="register(event)"><input class="field" id="regName" placeholder="Full name" required><input class="field" id="regEmail" type="email" placeholder="School email" required><select class="field" id="regInterest"><option>Programming</option><option>Information Systems</option><option>Fiction</option><option>Science</option><option>Personal Development</option></select><button class="btn">Register</button></form>
+  <div class="notice" id="registerNotice"></div>
+</div></div>
+<div class="modal-backdrop" id="borrowModal" onclick="backdropClose(event,'borrowModal')"><div class="modal">
+  <button class="close" onclick="closeModal('borrowModal')">✕</button><h2>Request this book</h2><p id="borrowBookTitle"></p>
+  <form onsubmit="submitBorrow(event)"><input class="field" id="borrowerName" placeholder="Your full name" required><input type="hidden" id="borrowBookId"><div class="row"><label>Borrow date<input class="field" id="borrowDate" type="date" required></label><label>Due date<input class="field" id="dueDate" type="date" required></label></div><button class="btn">Submit borrow request</button></form>
+  <div class="notice" id="borrowNotice"></div>
+</div></div>
+<script>
+const books=[
+{id:1,title:'Java Programming Basics',author:'J. Santos',category:'Programming',available: true,icon:'☕',cover:'',desc:'Beginner-friendly programming concepts.'},
+{id:2,title:'Web Development Essentials',author:'M. Reyes',category:'Programming',available:true,icon:'💻',desc:'HTML, CSS, and JavaScript foundations.'},
+{id:3,title:'Information Systems Today',author:'S. Valacich',category:'Information Systems',available:true,icon:'🖥️',desc:'How organizations use information systems.'},
+{id:4,title:'Database Design Made Simple',author:'A. Cruz',category:'Information Systems',available:true,icon:'🗃️',desc:'Learn tables, relationships, and data.'},
+{id:5,title:'The Little Prince',author:'Antoine de Saint-Exupéry',category:'Fiction',available:true,icon:'🌟',desc:'A classic story about friendship and life.'},
+{id:6,title:'The Science Book',author:'DK Publishing',category:'Science',available:false,icon:'🔬',desc:'A visual introduction to scientific ideas.'},
+{id:7,title:'Atomic Habits',author:'James Clear',category:'Personal Development',available:true,icon:'🌱',desc:'Build better habits through small changes.'},
+{id:8,title:'Clean Code',author:'Robert C. Martin',category:'Programming',available:true,icon:'🧩',desc:'Practical ideas for writing readable code.'}
+];
+let requests=JSON.parse(localStorage.getItem('tcuLibraryRequests')||'[]');
+let currentUser=localStorage.getItem('tcuLibraryUser')||'';
+let selectedRole='Borrower';
+function save(){localStorage.setItem('tcuLibraryRequests',JSON.stringify(requests));updateStats()}
+function updateStats(){document.getElementById('bookCount').textContent=books.length;document.getElementById('availableCount').textContent=books.filter(b=>b.available).length;document.getElementById('requestCount').textContent=requests.length}
+function renderBooks(){
+ const q=document.getElementById('searchInput').value.toLowerCase(),cat=document.getElementById('categoryFilter').value;
+ const filtered=books.filter(b=>(cat==='All'||b.category===cat)&&(b.title.toLowerCase().includes(q)||b.author.toLowerCase().includes(q)||b.category.toLowerCase().includes(q)));
+ const grid=document.getElementById('bookGrid');
+ if(!filtered.length){grid.innerHTML='<div class="empty">No books found. Try another search.</div>';return}
+ grid.innerHTML=filtered.map((b,i)=>`<article class="book"><div class="cover ${['','c2','c3','c4'][i%4]}">${b.icon}</div><div class="book-body"><span class="tag">${b.category}</span><h3>${b.title}</h3><div class="author">by ${b.author}</div><div style="font-size:13px;color:#655a7d;line-height:1.4">${b.desc}</div><div class="book-foot"><span class="${b.available?'available':'unavailable'}">${b.available?'● Available':'● Borrowed'}</span><button class="btn" style="padding:8px 10px;font-size:12px" ${b.available?'':'disabled style="opacity:.5;cursor:not-allowed;padding:8px 10px;font-size:12px"'} onclick="startBorrow(${b.id})">${b.available?'Borrow':'Unavailable'}</button></div></div></article>`).join('');
+}
+function resetCatalog(){document.getElementById('searchInput').value='';document.getElementById('categoryFilter').value='All';renderBooks()}
+function openModal(id,role){if(role){selectedRole=role;document.getElementById('loginRole').value=role}document.getElementById(id).classList.add('show')}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function backdropClose(e,id){if(e.target.id===id)closeModal(id)}
+function startBorrow(id){const b=books.find(x=>x.id===id);if(!b||!b.available)return;document.getElementById('borrowBookId').value=id;document.getElementById('borrowBookTitle').textContent=b.title+' — '+b.author;document.getElementById('borrowerName').value=currentUser;const today=new Date();const due=new Date();due.setDate(today.getDate()+7);document.getElementById('borrowDate').value=today.toISOString().slice(0,10);document.getElementById('dueDate').value=due.toISOString().slice(0,10);document.getElementById('borrowNotice').classList.remove('show');openModal('borrowModal')}
+function submitBorrow(e){e.preventDefault();const id=Number(document.getElementById('borrowBookId').value),b=books.find(x=>x.id===id),name=document.getElementById('borrowerName').value.trim(),date=document.getElementById('borrowDate').value,due=document.getElementById('dueDate').value;if(due<date){alert('Due date must be on or after the borrow date.');return}requests.push({id:Date.now(),bookId:id,title:b.title,name,date,due,status:'Pending',fine:0});currentUser=name;localStorage.setItem('tcuLibraryUser',name);save();const n=document.getElementById('borrowNotice');n.textContent='Request submitted! Your request is pending librarian approval.';n.classList.add('show');renderBooks();setTimeout(()=>closeModal('borrowModal'),1300)}
+function register(e){e.preventDefault();currentUser=document.getElementById('regName').value.trim();localStorage.setItem('tcuLibraryUser',currentUser);const notice=document.getElementById('registerNotice');notice.textContent='Welcome, '+currentUser+'! Your demo profile has been created. You can now request books.';notice.classList.add('show')}
+function login(e){e.preventDefault();currentUser=document.getElementById('loginName').value.trim();selectedRole=document.getElementById('loginRole').value;localStorage.setItem('tcuLibraryUser',currentUser);localStorage.setItem('tcuLibraryRole',selectedRole);closeModal('loginModal');showDashboard(selectedRole,currentUser)}
+function showDashboard(role,name){const d=document.getElementById('dashboard');d.style.display='block';document.getElementById('dashTitle').textContent=role+' Dashboard';document.getElementById('dashDesc').textContent='Signed in as '+name+' • Demo prototype';let content='';
+if(role==='Borrower'){const mine=requests.filter(r=>r.name.toLowerCase()===name.toLowerCase());content=mine.length?`<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;text-align:left"><tr><th style="padding:10px;border-bottom:1px solid #eee">Book</th><th style="padding:10px;border-bottom:1px solid #eee">Due date</th><th style="padding:10px;border-bottom:1px solid #eee">Status</th><th style="padding:10px;border-bottom:1px solid #eee">Action</th></tr>${mine.map(r=>`<tr><td style="padding:10px;border-bottom:1px solid #eee">${r.title}</td><td style="padding:10px;border-bottom:1px solid #eee">${r.due}</td><td style="padding:10px;border-bottom:1px solid #eee">${r.status}</td><td style="padding:10px;border-bottom:1px solid #eee">${r.status==='Approved'?`<button class="btn" onclick="returnBook(${r.id})">Return book</button>`:'—'}</td></tr>`).join('')}</table></div>`:'<p>No requests yet. Browse the catalog and choose a book to borrow.</p>';content+=`<p style="margin-top:18px"><b>Recommended for you:</b> ${books.filter(b=>b.category===document.getElementById('regInterest')?.value||b.category==='Programming').slice(0,3).map(b=>b.title).join(' • ')||'Java Programming Basics • Clean Code • Web Development Essentials'}</p>`}
+else{content=`<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;text-align:left"><tr><th style="padding:10px;border-bottom:1px solid #eee">Borrower</th><th style="padding:10px;border-bottom:1px solid #eee">Book</th><th style="padding:10px;border-bottom:1px solid #eee">Due date</th><th style="padding:10px;border-bottom:1px solid #eee">Status</th><th style="padding:10px;border-bottom:1px solid #eee">Action</th></tr>${requests.length?requests.map(r=>`<tr><td style="padding:10px;border-bottom:1px solid #eee">${r.name}</td><td style="padding:10px;border-bottom:1px solid #eee">${r.title}</td><td style="padding:10px;border-bottom:1px solid #eee">${r.due}</td><td style="padding:10px;border-bottom:1px solid #eee">${r.status}</td><td style="padding:10px;border-bottom:1px solid #eee">${r.status==='Pending'?`<button class="btn" onclick="approveRequest(${r.id})">Approve</button>`:r.status==='Return requested'?`<button class="btn" onclick="completeReturn(${r.id})">Confirm return</button>`:'—'}</td></tr>`).join(''):'<tr><td colspan="5" style="padding:14px">No requests have been submitted yet.</td></tr>'}</table></div><p style="font-size:12px;color:#6b6380">Demo only: actions update this browser's local data.</p>`}
+document.getElementById('dashContent').innerHTML=content;d.scrollIntoView({behavior:'smooth',block:'start'})}
+function closeDashboard(){document.getElementById('dashboard').style.display='none'}
+function approveRequest(id){const r=requests.find(x=>x.id===id);if(!r)return;r.status='Approved';const b=books.find(x=>x.id===r.bookId);if(b)b.available=false;save();showDashboard(selectedRole,currentUser);renderBooks()}
+function returnBook(id){const r=requests.find(x=>x.id===id);if(!r)return;r.status='Return requested';save();showDashboard('Borrower',currentUser)}
+function completeReturn(id){const r=requests.find(x=>x.id===id);if(!r)return;r.status='Returned';const b=books.find(x=>x.id===r.bookId);if(b)b.available=true;save();showDashboard(selectedRole,currentUser);renderBooks()}
+renderBooks();updateStats();
+</script>
+</body>
+</html>
